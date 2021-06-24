@@ -59,8 +59,8 @@ class TrainModel():
         self.label = np.array(dataset['label'])
 
         # The input_shape should be (channel x data)
-        self.input_shape = self.data[0,0,0,0].shape
-        
+        self.input_shape = self.data[0,0:1,0,0].shape
+        print(self.input_shape)
         print('Data loaded!\n Data shape:[{}], Label shape:[{}]'
               .format(self.data.shape,self.label.shape))
         
@@ -404,7 +404,7 @@ class TrainModel():
         elif self.model == 'TSception':
             model = TSception(num_classes = self.num_class, input_size = self.input_shape,
                               sampling_rate = self.sampling_rate, num_T = self.T, num_S = self.S,
-                              hiden = self.hiden_node, dropout_rate = self.dropout)
+                              hidden = self.hiden_node, dropout_rate = self.dropout)
             
         optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
         
@@ -535,7 +535,7 @@ class TrainModel():
     
 if __name__ == "__main__":
     train = TrainModel()
-    train.load_data('<Your code path>\data_split.hdf')
+    train.load_data('/content/TSception/data_split.hdf')
     # Please set the parameters here. 
     train.set_parameter( cv = 'Leave_one_session_out',
                          model = 'TSception',
